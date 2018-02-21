@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<title>Tienda NFL Puebla</title>
+<meta charset="iso-8859-1">
+<link rel="stylesheet" href="styles/layout.css" type="text/css">
+<meta name="viewport" content="width=device-width" />
+<meta name="google-signin-client_id" content="389314411206-5htf1fojpa7c77e2b2hhrrml1k7a3058.apps.googleusercontent.com">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+   <style type="text/css">
+      html { height: 100% }
+      body { height: 100%; margin: 0; padding: 0 }
+      #map_canvas { height: 100% }
+    </style>
+
+<script type="text/javascript"
+  src="https://maps.googleapis.com/maps/api/js?&sensor=true">
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+        var mapOptions = null;
+        var map = null;
+        var mensaje;
+        var pinColor;
+        var charMarker
+        var infowindow;
+        lat= 19.0206042;
+        lng = -98.2635828;
+        ( 
+            function () 
+            {
+                google.maps.Map.prototype.markers = new Array();
+                google.maps.Map.prototype.getMarkers = function ()
+                {
+                return this.markers
+                };
+            
+                google.maps.Map.prototype.clearMarkers = function () 
+                {
+                    for (var i = 0; i < this.markers.length; i++) {
+                        this.markers[i].setMap(null);
+                    }
+                this.markers = new Array();
+                };
+            
+                google.maps.Marker.prototype._setMap = google.maps.Marker.prototype.setMap;
+                google.maps.Marker.prototype.setMap = function (map) 
+                {
+                    if (map) {
+                        map.markers[map.markers.length] = this;
+                    }
+                    this._setMap(map);
+                }
+            }
+        )
+        ();
+            
+        
+        
+        function initMap() {
+            
+           
+            
+          
+            mapOptions = {
+                center: new google.maps.LatLng(lat, lng),
+                zoom: 18,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            map = new google.maps.Map(document.getElementById("map_canvas"),
+                mapOptions);
+            
+           
+            obtenerClima()
+            drawMarker();
+
+        }
+
+        
+        function drawMarker() 
+        {
+            
+            var infowindow = new google.maps.InfoWindow();
+            var marker, i; 
+            //var nombre = sessionStorage.nombreCliente;
+            message = "Nuestro establecimiento";
+            pinColor = "3333FF";
+            charMarker = "@";
+            
+            
+                var pinImage = new google.maps.MarkerImage
+                
+                ("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + charMarker + "|" + pinColor,
+                        new google.maps.Size(40, 60),
+                        new google.maps.Point(0, 0),
+                        new google.maps.Point(20, 60));
+
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(lat, lng),
+                    icon: pinImage,
+                    title: '' + message,
+                    map: map
+                });
+
+               
+
+                google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                    return function () {
+                        infowindow.setContent("legaspi");
+                        infowindow.open(map, marker);
+                    }
+                })(marker, i));
+           
+        }
+
+        
+
+
+   function obtenerClima()
+    {
+
+        var apiKey = "2af72ef62258728d72777bef612f2a3e";
+
+      $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat=" + 
+        lat + "&lon=" + lng + "&appid=" + apiKey, function(data) 
+        {
+            //alert(JSON.stringify(data));
+            
+            
+            $("#temperature").text(data.main.temp);
+             $("#press").text(data.main.pressure);
+             $("#hum").text(data.main.humidity);
+             $("#max").text(data.main.temp_max);
+        })
+      
+
+    }
+
+ 
+
+    </script>
+<script src="//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyD66FRleaWTDukwQYtU6gtoU0Qo5fvTw1E" async="" defer="defer" type="text/javascript"></script>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '147155912762856',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v2.12'
+    });
+      
+    FB.AppEvents.logPageView();   
+      
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'))
+
+  function checkLoginState() {
+  FB.getLoginStatus(function(response) {
+    if(response.status == 'connected'){
+      window.location = "http://localhost/web/parcial1/basic-88/store.html";
+    }
+  });
+}
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  window.location = "http://localhost/web/parcial1/basic-88/store.html";
+}
+
+</script>
+
+</head>
+<body onload="initMap()">
+<div class="wrapper row1">
+  <header id="header" class="clear">
+    <div id="hgroup">
+      <h1><a href="#">Tienda NFL Puebla</a></h1>
+    </div>
+    <nav>
+      
+
+		<fb:login-button 
+		  scope="public_profile,email"
+		  onlogin="checkLoginState();">
+		</fb:login-button>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+        
+    </nav>
+  </header>
+
+</div>
+<!-- content -->
+<div id="map_canvas"  style="width: 960; height: 360; float: left; border: 1px solid black;" class="container-fluid">
+
+      </div>
+
+<div class="wrapper row2">
+  <div id="container" class="clear">
+    <!-- Slider -->
+     <h2>Our location</h2>
+         <h2> temperature: </h2><h2 id="temperature"> </h2>
+         <h2> Pressure: </h2><h2 id="press"> </h2>
+         <h2> Humidity: </h2><h2 id="hum"> </h2>
+         <h2> Max temperature: </h2><h2 id="max"> </h2>
+
+    <section id="slider"><a href="#"><img src="images/demo/960x360.gif" alt=""></a></section>
+    <!-- main content -->
+    <div id="homepage">
+      <!-- Services -->
+      <section id="services" class="clear">
+        <article class="one_third">
+          <figure><img src="images/demo/290x180.gif" width="290" height="180" alt="">
+            <figcaption>
+              <h2>Indonectetus facilis</h2>
+              <p>Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna.</p>
+              <footer class="more"><a href="#">Read More &raquo;</a></footer>
+            </figcaption>
+          </figure>
+        </article>
+        <article class="one_third">
+          <figure><img src="images/demo/290x180.gif" width="290" height="180" alt="">
+            <figcaption>
+              <h2>Indonectetus facilis</h2>
+              <p>Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna.</p>
+              <footer class="more"><a href="#">Read More &raquo;</a></footer>
+            </figcaption>
+          </figure>
+        </article>
+        <article class="one_third lastbox">
+          <figure><img src="images/demo/290x180.gif" width="290" height="180" alt="">
+            <figcaption>
+              <h2>Indonectetus facilis</h2>
+              <p>Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna.</p>
+              <footer class="more"><a href="#">Read More &raquo;</a></footer>
+            </figcaption>
+          </figure>
+        </article>
+      </section>
+      <!-- / Services -->
+      <!-- ########################################################################################## -->
+      <!-- ########################################################################################## -->
+      <!-- ########################################################################################## -->
+      <!-- ########################################################################################## -->
+      <!-- Introduction -->
+      <section id="intro" class="last clear">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/AhJfPGa_vTk" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      </section>
+      <!-- / Introduction -->
+    </div>
+    <!-- / content body -->
+  </div>
+</div>
+<!-- Footer -->
+<div class="wrapper row3">
+  <div id="footer" class="clear">
+    <!-- Section One -->
+    <section class="one_quarter">
+      <h2 class="title">Link Block</h2>
+      <nav>
+        <ul>
+          <li><a href="#">Lorem ipsum dolor sit</a></li>
+          <li><a href="#">Amet consectetur</a></li>
+          <li><a href="#">Praesent vel sem id</a></li>
+          <li><a href="#">Curabitur hendrerit est</a></li>
+          <li class="last"><a href="#">Sed a nulla urna</a></li>
+        </ul>
+      </nav>
+    </section>
+    <!-- / Section -->
+  </div>
+</div>
+<!-- Copyright -->
+<div class="wrapper row4">
+  <footer id="copyright" class="clear">
+    <p class="fl_left">Copyright &copy; 2012 - All Rights Reserved - <a href="#">Domain Name</a></p>
+    <p class="fl_right">Template by <a href="http://www.os-templates.com/" title="Free Website Templates">OS Templates</a></p>
+  </footer>
+</div>
+</body>
+</html>

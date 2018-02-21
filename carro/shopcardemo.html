@@ -7,7 +7,34 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '785142091693270',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v2.12'
+    });
+      
+    FB.AppEvents.logPageView();   
+      
+  };
 
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'))
+
+  function checkLoginState() {
+  FB.getLoginStatus(function(response) {
+    if(response.status == 'connected'){
+      window.location = "/cart";
+    }
+  });
+}</script>
 <script>
   
 function showpage(idpage){
@@ -63,12 +90,10 @@ function showpage(idpage){
         
             </a>
           </div>
-          <ul class="nav navbar-nav">
-            <li><a href="#" onclick="showpage(0)">Login</a></bli>
-            <li><a href="#" onclick="showpage(1)">Customer</a></li>
-            <li><a href="#" onclick="showpage(2)">Car</a></li>
-            <li><a href="#" onclick="showpage(3)">Payment</a></li>
-          </ul>
+          <fb:login-button 
+        scope="public_profile,email"
+        onlogin="checkLoginState();">
+      </fb:login-button>
         </div>
       </nav>
         

@@ -13,6 +13,10 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
 });
 
+app.get('/store', function (req, res) {
+    res.sendFile(path.join(__dirname + '/store.html'));
+});
+
 app.listen(PORT);
 
 console.log('Running on port ' + PORT);

@@ -3,7 +3,7 @@ var PORT=8081;
 var app = express();
 app.get('/',function(req,res)
 	{
-	res.sendfile('images.html');
+	res.sendfile('maps.html');
 	}
 );
 app.listen(PORT);
